@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>神奇树屋 · 一周一章俱乐部 | 第1章 Into the Woods</title>
+<style>
+:root{
+  --green:#2f7d4f; --green-lt:#e8f5ee; --brown:#8a5a2b; --brown-lt:#f6efe6;
+  --orange:#e8842a; --orange-lt:#fdeede; --sky:#eaf4fb; --ink:#2b2620;
+  --card:#ffffff; --line:#e6ddcf; --red:#d9534f;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:var(--sky); color:var(--ink); line-height:1.6;}
+.wrap{max-width:980px; margin:0 auto; padding:16px;}
+header.hero{background:linear-gradient(135deg,#2f7d4f 0%,#3e9a63 55%,#6bbf83 100%); border-radius:0 0 28px 28px; color:#fff; padding:30px 24px 26px; text-align:center;}
+header.hero h1{font-size:26px; letter-spacing:1px; position:relative; z-index:1;}
+.btn-reset{position:absolute; right:14px; top:14px; z-index:2; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.45); color:#fff; font-size:12px; padding:5px 10px; border-radius:999px; cursor:pointer;}
+.btn-reset:active{background:rgba(255,255,255,.3);}
+header.hero .sub{opacity:.92; font-size:14px; margin-top:6px;}
+.badge-row{display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap;}
+.badge{background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35); border-radius:999px; padding:4px 14px; font-size:13px;}
+/* 周计划条 */
+.weekbar{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin:-18px auto 0; max-width:960px; padding:0 16px;}
+.day{background:var(--card); border-radius:14px; padding:10px 6px; text-align:center; box-shadow:0 4px 14px rgba(43,38,32,.10); border-top:4px solid var(--line); font-size:12px;}
+.day b{display:block; font-size:13px;}
+.day.on{border-top-color:var(--orange); background:var(--orange-lt);}
+.day .d-task{color:#7a6f5f; margin-top:2px; font-size:11px;}
+/* 总进度 */
+.progress-card{background:var(--card); border-radius:18px; padding:16px 20px; margin-top:18px; box-shadow:0 4px 14px rgba(43,38,32,.08);}
+.pbar{height:14px; background:#efe7d9; border-radius:999px; overflow:hidden;}
+.pbar > div{height:100%; width:0; background:linear-gradient(90deg,var(--green),#6bbf83); border-radius:999px; transition:width .5s;}
+.psteps{display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-top:12px;}
+.pstep{text-align:center; font-size:13px; padding:8px 4px; border-radius:12px; background:#f7f2ea; cursor:pointer; border:2px solid transparent;}
+.pstep.done{background:var(--green-lt); border-color:var(--green);}
+.pstep.cur{border-color:var(--orange); background:var(--orange-lt);}
+.pstep .ic{font-size:22px; display:block;}
+/* 阶段面板 */
+.stage{display:none; background:var(--card); border-radius:18px; padding:22px; margin-top:18px; box-shadow:0 4px 14px rgba(43,38,32,.08);}
+.stage.active{display:block;}
+.stage h2{font-size:20px; display:flex; align-items:center; gap:10px;}
+.stage h2 .num{background:var(--green); color:#fff; width:34px; height:34px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; font-size:17px; flex:none;}
+.stage h3{font-size:16px; margin:18px 0 8px; color:var(--brown);}
+.tip{background:var(--brown-lt); border-left:4px solid var(--brown); padding:10px 14px; border-radius:0 10px 10px 0; font-size:14px; margin-top:10px;}
+.story{background:var(--green-lt); border-radius:14px; padding:14px 16px; font-size:14px; margin-top:12px;}
+button{font-family:inherit; cursor:pointer; border:none; border-radius:12px; padding:10px 18px; font-size:15px; font-weight:600;}
+.btn-main{background:var(--orange); color:#fff;}
+.btn-main:hover{filter:brightness(1.05);}
+.btn-green{background:var(--green); color:#fff;}
+.btn-ghost{background:#fff; border:2px solid var(--line); color:var(--ink);}
+button:disabled{opacity:.55; cursor:not-allowed; filter:grayscale(.4);}
+.btn:disabled{opacity:.45; cursor:not-allowed;}
+.btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; align-items:center;}
+.done-flash{background:var(--green-lt); color:var(--green); border-radius:12px; padding:10px 14px; font-weight:700; display:none; margin-top:14px;}
+.done-flash.show{display:block;}
+/* 资源设置 */
+.res-card{border:2px dashed var(--line); border-radius:14px; padding:14px 16px; margin-top:10px;}
+.res-card.ok{border-style:solid; border-color:var(--green); background:var(--green-lt);}
+.res-card .st{font-size:13px; color:#8a7f6e;}
+.res-card.ok .st{color:var(--green); font-weight:700;}
+a.netdisk{color:var(--brown); font-weight:700; text-decoration:none; border-bottom:2px dotted var(--brown);}
+/* 听力 */
+.listen-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px;}
+@media(max-width:760px){.listen-grid{grid-template-columns:1fr;}}
+.round-card{border-radius:14px; padding:14px 16px; font-size:14px;}
+.round-card h4{font-size:15px; margin-bottom:6px;}
+.r1{background:var(--sky); border:2px solid #bcdcf0;}
+.r2{background:var(--orange-lt); border:2px solid #f3cfa2;}
+.r3{background:var(--green-lt); border:2px solid #bfe3cd;}
+.loop-count{display:flex; gap:8px; margin-top:10px;}
+.loop-dot{width:34px; height:34px; border-radius:50%; background:#efe7d9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#b3a894;}
+.loop-dot.hit{background:var(--green); color:#fff;}
+textarea{width:100%; min-height:120px; border:2px solid var(--line); border-radius:12px; padding:10px; font-size:14px; font-family:inherit;}
+audio,video{width:100%; border-radius:12px; outline:none;}
+audio{margin-top:8px; background:#f3ede2;}
+/* 生词表 */
+.word-cloud{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+.wchip{background:#fff; border:2px solid var(--line); border-radius:999px; padding:4px 12px; font-size:14px;}
+.wchip b{color:var(--green);}
+.kar-s{color:#9a8f7d;transition:all .2s;}
+.kar-s.on{background:var(--green-lt);color:var(--brown);font-weight:700;border-radius:8px;padding:2px 6px;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.kar-line{margin:0 0 10px;}
+.kar-zh{font-size:13px;color:#a3967f;margin-top:1px;line-height:1.5;}
+#karText.nozh .kar-zh{display:none;}
+/* 游戏 */
+.gamebox{display:none; margin-top:14px;}
+.gamebox.on{display:block;}
+.gscore{font-size:15px; font-weight:800; color:var(--brown); margin:8px 0;}
+/* 翻牌 */
+/* 打地鼠 */
+.whack-q{text-align:center; font-size:20px; font-weight:800; background:var(--orange-lt); border-radius:14px; padding:14px; margin-top:10px;}
+.whack-opts{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:12px;}
+.wopt{background:#fff; border:2px solid var(--line); border-radius:14px; padding:14px 8px; text-align:center; font-size:16px; font-weight:700; cursor:pointer;}
+.wopt.pick{border-color:var(--orange); background:#fff4e5; box-shadow:0 0 0 3px rgba(244,162,54,.18);}
+.wopt.good{border-color:var(--green); background:var(--green-lt);}
+.wopt.bad{border-color:var(--red); background:#fdeaea; opacity:.7;}
+.wopt:hover{border-color:var(--orange);}
+.wopt.good{background:var(--green-lt); border-color:var(--green); color:var(--green);}
+.wopt.bad{background:#fdeaea; border-color:var(--red); color:var(--red); animation:shake .3s;}
+@keyframes shake{25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+/* 填空 */
+/* 配音/朗读 */
+.rec-stage{background:#f7f2ea; border-radius:16px; padding:16px; margin-top:12px; text-align:center;}
+.recdot{display:inline-block; width:14px; height:14px; border-radius:50%; background:#c9bda9; margin-right:8px;}
+.recdot.live{background:var(--red); animation:blink 1s infinite;}
+@keyframes blink{50%{opacity:.2;}}
+.tips-line{font-size:13px; color:#8a7f6e; margin-top:8px;}
+.star-row{font-size:30px; cursor:pointer; letter-spacing:6px; margin-top:8px; user-select:none;}
+.star-row span{color:#d8cdbb; transition:color .15s;}
+.star-row span.lit{color:var(--orange);}
+.medal{display:none; text-align:center; margin-top:20px; background:linear-gradient(135deg,#fdeede,#e8f5ee); border-radius:18px; padding:26px;}
+.medal.show{display:block; animation:pop .5s;}
+@keyframes pop{0%{transform:scale(.6); opacity:0;}100%{transform:scale(1); opacity:1;}}
+.medal .big{font-size:52px;}
+/* 封面与内嵌 PDF */
+.cover{width:118px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,.28); margin-bottom:12px; border:3px solid rgba(255,255,255,.6);}
+.bookpage{display:block;width:100%;max-width:640px;margin:0 auto 10px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.pdf-frame{width:100%; height:460px; border:2px solid var(--line); border-radius:12px; margin-top:10px; background:#fff;}
+footer{text-align:center; color:#9a8f7d; font-size:12px; padding:26px 0 34px;}
+.hidden{display:none !important;}
+
+/* ===== 简洁首页 ===== */
+.home{text-align:center; padding:6px 10px 26px;}
+.home-cover{display:block; width:200px; max-width:60%; border-radius:18px; box-shadow:0 14px 34px rgba(31,60,43,.28); border:5px solid #fff; margin:8px auto 24px;}
+.home-kicker{font-size:13px; letter-spacing:4px; color:var(--brown); font-weight:800;}
+.home-title{font-size:36px; margin:8px 0 6px; color:var(--green); letter-spacing:2px;}
+.home-sub{font-size:15px; color:#7a6f5f;}
+.home-line{font-size:15px; line-height:1.95; margin:20px auto 28px; max-width:440px; color:#4a4239;}
+.btn-adventure{background:linear-gradient(135deg,#e8842a,#f6a723); color:#fff; font-size:23px; font-weight:800; padding:17px 56px; border-radius:999px; box-shadow:0 10px 26px rgba(232,132,42,.42); transition:transform .2s,box-shadow .2s;}
+.btn-adventure:hover{transform:translateY(-3px); box-shadow:0 14px 30px rgba(232,132,42,.5);}
+.home-hint{margin-top:22px; font-size:13px; color:#a3967f; letter-spacing:1px;}
+/* ===== 生词：先学后测（百词斩式） ===== */
+.wtabs{display:flex; gap:10px; justify-content:center; margin:6px 0 18px;}
+.wtab{background:#f2ece1; color:#7a6f5f; border:2px solid transparent; border-radius:999px; padding:9px 24px; font-size:15px; font-weight:800;}
+.wtab.on{background:var(--green); color:#fff; box-shadow:0 4px 12px rgba(47,125,79,.3);}
+.wpane{display:none;} .wpane.on{display:block;}
+.lcard{max-width:520px; margin:0 auto; background:#fff; border:2px solid var(--line); border-radius:20px; padding:20px; box-shadow:0 6px 20px rgba(43,38,32,.07);}
+.lcard-img{width:100%; max-width:320px; aspect-ratio:1/0.93; object-fit:cover; border-radius:16px; display:block; margin:0 auto 16px; background:#f7f2ea;}
+.lword{font-size:32px; font-weight:800; color:var(--brown); letter-spacing:1px;}
+.lzh{font-size:19px; color:var(--green); font-weight:700; margin-top:4px;}
+.lex{font-size:14px; color:#8a7f6e; margin-top:12px; line-height:1.7; background:var(--brown-lt); border-radius:10px; padding:9px 14px;}
+.lprog{font-size:14px; font-weight:700; color:#8a7f6e; margin:2px 0 14px;}
+.ldots{display:flex; gap:5px; justify-content:center; margin:10px 0 16px; flex-wrap:wrap;}
+.ldot{width:11px; height:11px; border-radius:50%; background:#e0d7c8;}
+.ldot.cur{background:var(--orange); transform:scale(1.3);} .ldot.ok{background:var(--green);} .ldot.rev{background:var(--red);}
+.lbtns{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:6px;}
+.lbtns button{padding:11px 20px; font-size:15px;}
+.lfinish{text-align:center; padding:26px 12px;}
+.lfinish .big{font-size:58px;}
+.qpic-img{width:210px; max-width:70%; border-radius:16px; display:block; margin:6px auto 4px; box-shadow:0 6px 18px rgba(43,38,32,.14);}
+.qhd{font-size:15px; font-weight:800; color:var(--brown); margin:18px 0 4px;}
+.whack-opts{gap:12px;} .wopt{padding:16px 10px; font-size:17px; border-radius:16px; transition:all .15s;}
+.wopt:hover{border-color:var(--orange);} .wopt.pick{background:var(--orange-lt); border-color:var(--orange);}
+/* ===== 朗读：英段+中段 ===== */
+.kar-block{font-size:17px; line-height:2.05; text-align:justify; padding:4px 2px;}
+.kar-en .kar-s{color:#9a8f7d; transition:all .2s;}
+.kar-en .kar-s.on{background:var(--green-lt); color:var(--brown); font-weight:700; border-radius:6px; padding:2px 4px; box-shadow:0 2px 6px rgba(0,0,0,.07);}
+.kar-zh-para{font-size:14px; line-height:1.95; color:#a3967f; text-align:justify; border-top:2px dashed var(--line); margin-top:16px; padding-top:14px;}
+.kar-zh-para .kar-z{transition:all .2s; border-radius:5px;}
+.kar-zh-para .kar-z.on{background:#fdeede; color:var(--brown); font-weight:700; padding:1px 3px;}
+#karText.nozh .kar-zh-para{display:none;}
+
+
+/* ===== 整体简洁化：首页落地页 + 关卡细顶栏 ===== */
+#st0{background:linear-gradient(158deg,#2f7d4f 0%,#3e9a63 52%,#63b87f 100%); color:#fff; padding:34px 16px 50px;}
+#st0 .home-kicker{color:rgba(255,255,255,.82);}
+#st0 .home-title{color:#fff;}
+#st0 .home-sub{color:rgba(255,255,255,.92);}
+#st0 .home-line{color:rgba(255,255,255,.95);}
+#st0 .home-hint{color:rgba(255,255,255,.78);}
+#st0 .home-cover{box-shadow:0 18px 40px rgba(0,0,0,.32);}
+header.hero{padding:15px 20px; border-radius:0 0 18px 18px;}
+header.hero h1{font-size:19px;}
+
+</style>
+</head>
+<body>
+<header class="hero" id="topbar">
+  <h1>🌳 神奇树屋 · 第 1 章</h1>
+  <button class="btn-reset" onclick="resetProgress()" title="清空进度，从头开始">🔄 重新开始</button>
+</header>
+
+<div class="wrap">
+  <!-- 总进度（首页隐藏） -->
+  <div id="dash" style="display:none;">
+  <div class="weekbar" id="weekbar" style="display:none;"></div>
+  <div class="progress-card">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <b>本章冒险进度</b><span id="pPct" style="font-weight:800; color:var(--green);">0%</span>
+    </div>
+    <div class="pbar"><div id="pFill"></div></div>
+    <div class="psteps" id="pSteps"></div>
+  </div>
+  </div>
+
+  <!-- 阶段0：首页 -->
+  <section class="stage active" id="st0">
+    <div class="home">
+      <img class="home-cover" src="" data-needs="cover" alt="Dinosaurs Before Dark 原书封面">
+      <div class="home-kicker">ONE WEEK · ONE CHAPTER</div>
+      <div class="home-title">🌳 神奇树屋</div>
+      <div class="home-sub">Magic Tree House #1 · Dinosaurs Before Dark · 恐龙谷历险记</div>
+      <p class="home-line">跟着杰克和安妮爬上树屋，<br>看动画、听故事、记生词、配配音，最后把整章读出来。</p>
+      <button class="btn-adventure" onclick="goto(1)">🚀 开始冒险</button>
+      <div class="home-hint">看动画 · 听三遍 · 记生词 · 配配音 · 读一章</div>
+    </div>
+  </section>
+
+  <!-- 阶段1：视频导入 -->
+  <section class="stage" id="st1">
+    <h2><span class="num">1</span>先看视频，认识这个故事 🎬</h2>
+    <div class="story">
+      <b>这一章讲什么？</b>（看完视频前先保密 😄）太阳快落山时，安妮喊着"有怪物！"跑进了树林，
+      哥哥杰克只好追进去。树林深处有一棵高高的橡树，树上挂着一个神秘树屋——里面居然堆满了书！
+      就在这一章的最后，安妮抬头看见了窗外那个<b>长翅膀的大家伙</b>……冒险，从这里开始。
+    </div>
+    <div style="margin-top:14px;" id="videoArea">
+      <video id="videoPlayer" controls playsinline poster="" data-poster="cover" src="" data-needs="video"></video>
+      <div class="tips-line">🎞️ 已嵌入：第一章动画片《Into the Woods》（2分49秒），点播放即可观看。</div>
+    </div>
+    <div class="tip">👀 <b>看视频任务</b>：看完后不看书，用中文回答——① 树屋是谁先发现的？② 树屋里堆满了什么？③ 杰克为什么最后也爬上去了？答得上来，就通关！</div>
+    <div class="btn-row">
+      <button class="btn-green" onclick="complete(1)">✅ 我看完视频了，通关！</button>
+      <button class="btn-ghost" id="next1" data-orig="下一步：泛听三遍 →" onclick="tryGoto(2)">下一步：泛听三遍 →</button>
+    </div>
+    <div class="done-flash" id="flash1">🎉 太棒了！故事已经装进小脑袋啦！</div>
+  </section>
+
+  <!-- 阶段2：泛听三遍 -->
+  <section class="stage" id="st2">
+    <h2><span class="num">2</span>跟着听力文本，泛听三遍 🎧</h2>
+    <div class="listen-grid">
+      <div class="round-card r1">
+        <h4>🎵 第一遍 · 听个大概</h4>
+        不看文本，闭上眼睛听。听完只回答一个问题：<b>他们最后到树屋里了吗？</b>
+        <div class="loop-count"><div class="loop-dot" id="ld1">1</div><div class="loop-dot" id="ld2">2</div><div class="loop-dot" id="ld3">3</div></div>
+      </div>
+      <div class="round-card r2">
+        <h4>🔍 第二遍 · 边听边对</h4>
+        打开下面的原书 PDF（第 4 页起），听着音频<b>用手指跟着字走</b>。听到这些词就打个勾：creek / monster / rope ladder / oak tree / whisper / be filled with
+      </div>
+      <div class="round-card r3">
+        <h4>🗣️ 第三遍 · 小声跟读</h4>
+        音频读到哪儿，嘴巴轻轻跟到哪儿（shadowing）。不用完美，跟上节奏就赢！
+      </div>
+      <div class="round-card" style="background:#f7f2ea;border:2px solid var(--line);">
+        <h4>🆘 卡住了？</h4>
+        回到阶段1<b>再看一遍动画片画面</b>，或翻开下面的原书 PDF 对照文字。
+        <span id="bilingualSlot"><span style="font-size:13px;color:#8a7f6e;">（可选：若装了双语讲解音频，会出现在这里）</span></span>
+      </div>
+    </div>
+
+    <h3>🔊 章节音频播放器（已内嵌 · 第一章 2分50秒）</h3>
+    <div id="audioArea">
+      <div id="audioPlayerBox">
+        <audio id="audioPlayer" controls src="" data-needs="audio"></audio>
+        <div class="tips-line">💡 听完一遍就在这里点一下计数：<div class="loop-count" style="display:inline-flex;margin-left:6px;">
+          <div class="loop-dot" id="ldA">1</div><div class="loop-dot" id="ldB">2</div><div class="loop-dot" id="ldC">3</div></div>
+          <button class="btn-ghost" style="padding:4px 12px;font-size:13px;" onclick="countLoop()">＋ 听完一遍</button>
+        </div>
+      </div>
+    </div>
+
+    <h3>📄 听力文本区（原书 PDF 已嵌入 · 第一章从第 4 页开始）</h3>
+    <details open>
+      <summary style="cursor:pointer;font-weight:700;color:var(--brown);">📖 在网页里直接对照原书</summary>
+      <div class="pdf-frame" style="overflow:auto;background:#fff;">
+      <img class="bookpage" src="assets/bookpage1.jpg" alt="原书第 4 页">
+      <img class="bookpage" src="assets/bookpage2.jpg" alt="原书第 5 页">
+      <img class="bookpage" src="assets/bookpage3.jpg" alt="原书第 6 页">
+      <img class="bookpage" src="assets/bookpage4.jpg" alt="原书第 7 页">
+    </div>
+      <div class="tips-line">如果浏览器没有显示 PDF：<a class="netdisk" href="assets/book.pdf" download="Dinosaurs-Before-Dark.pdf">点这里在新窗口打开</a>。第 4 页是「1. Into the Woods」。</div>
+    </details>
+    <div class="tip">✏️ 也可以把自己整理的重点句子粘贴在下面，会自动保存在本机：</div>
+    <textarea id="scriptBox" placeholder="粘贴自己整理的 Chapter 1 重点句（可选）……"></textarea>
+    <div class="btn-row">
+      <button class="btn-green" onclick="complete(2)">✅ 三遍听完，通关！</button>
+      <button class="btn-ghost" id="next2" data-orig="下一步：生词大作战 →" onclick="tryGoto(3)">下一步：生词大作战 →</button>
+    </div>
+    <div class="done-flash" id="flash2">🎉 三遍下来，耳朵已经认识这个故事了！</div>
+  </section>
+
+  <!-- 阶段3：生词游戏 -->
+  <section class="stage" id="st3">
+    <h2><span class="num">3</span>生词乐园 📚</h2>
+    <p style="margin-top:8px;color:#7a6f5f;">先慢慢记，再玩「看图选词」闯关。不着急，看多久都可以。</p>
+    <div class="wtabs">
+      <button class="wtab on" id="tabLearn" onclick="switchW('learn')">📖 学一学</button>
+      <button class="wtab" id="tabQuiz" onclick="switchW('quiz')">🎮 考一考</button>
+    </div>
+
+    <!-- 学一学：百词斩式单词卡 -->
+    <div class="wpane on" id="paneLearn">
+      <div class="lprog" id="lProg">第 1 / 12 个 · 看图片、读例句，记住它 😊</div>
+      <div class="ldots" id="lDots"></div>
+      <div id="lCardWrap">
+        <div class="lcard">
+          <img class="lcard-img" id="lImg" src="" alt="单词图片">
+          <div style="text-align:center;">
+            <div class="lword" id="lWord">creek</div>
+            <div class="lzh" id="lZh">小溪</div>
+          </div>
+          <div class="lex"><b id="lEx">They ran past a creek in the woods.</b><br><span id="lExZh">他们跑过树林里的一条小溪。</span></div>
+          <div class="lbtns" style="margin-top:14px;">
+            <button class="btn-ghost" onclick="speakWord()">🔊 听单词</button>
+            <button class="btn-ghost" onclick="speakEx()">🔊 听例句</button>
+          </div>
+        </div>
+        <div class="lbtns" style="margin-top:16px;">
+          <button class="btn-ghost" id="lPrev" onclick="lStep(-1)">← 上一个</button>
+          <button class="btn-ghost" onclick="lMark(0)">🤔 再看看</button>
+          <button class="btn-main" id="lNextBtn" onclick="lMark(1)">😎 记住了 →</button>
+        </div>
+      </div>
+      <div class="lfinish hidden" id="lFinish">
+        <div class="big">🎉</div>
+        <h3 style="margin:10px 0;">12 个生词都记住啦！</h3>
+        <p style="color:#7a6f5f;">现在去「考一考」，看看图片还认不认得～</p>
+        <div class="lbtns" style="margin-top:18px;">
+          <button class="btn-ghost" onclick="lRestart()">🔄 再学一遍</button>
+          <button class="btn-main" onclick="switchW('quiz')">🎮 去考一考 →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 考一考：看图选词 -->
+    <div class="wpane" id="paneQuiz">
+      <div class="gamebox on" id="gquiz" style="text-align:center;">
+        <div class="gscore">第 <span id="qRound">1</span> / 12 题 · 得分 <span id="qScore">0</span></div>
+        <div class="whack-q" id="qPic" style="background:transparent;padding:4px;">…</div>
+        <div id="qQuizArea">
+          <div class="qhd">① 选出它的英文单词</div>
+          <div class="whack-opts" id="qEnOpts"></div>
+          <div class="qhd">② 选出它的中文意思</div>
+          <div class="whack-opts" id="qZhOpts"></div>
+        </div>
+        <div id="qFeedback" style="margin-top:14px;font-weight:800;min-height:26px;font-size:16px;">先选英文，再选中文～</div>
+        <div class="btn-row hidden" id="qNextRow"><button class="btn-main" id="qNext">✅ 下一题 →</button></div>
+        <div class="btn-row hidden" id="qReplayRow"><button class="btn-ghost" id="qReplay">🔄 再练一遍</button></div>
+      </div>
+    </div>
+
+    <details style="margin-top:18px;">
+      <summary style="cursor:pointer;font-weight:700;color:var(--brown);">📋 本章完整词表（36 词，选看）</summary>
+      <div id="fullWordTable" style="margin-top:10px;"></div>
+    </details>
+
+    <div class="btn-row">
+      <button class="btn-green" id="btnGameWin" onclick="complete(3)" disabled>🔒 12 题全部答完后解锁</button>
+      <button class="btn-ghost" id="next3" data-orig="下一步：小小配音员 →" onclick="tryGoto(4)">下一步：小小配音员 →</button>
+    </div>
+    <div class="done-flash" id="flash3">🎉 看图选词通关，12 个生词全部收服！</div>
+  </section>
+
+  <!-- 阶段4：配音 -->
+  <section class="stage" id="st4">
+    <h2><span class="num">4</span>小小配音员 🎙️</h2>
+    <div class="story">
+      <b>怎么玩：</b>原版动画的英文旁白被切成了 <b>一句一句</b>。每句先点「🔊 听原句」，
+      再点「🎙 配这句」——配音时视频静音，<b>你的声音就是动画片的声音</b>！
+      全部配好后点「🎬 播放我的配音版」，看整部由你配音的动画片！
+    </div>
+    <div class="rec-stage">
+      <video id="dubVideo" muted playsinline preload="metadata" poster="" data-poster="cover" src="" data-needs="video" style="max-height:320px;"></video>
+      <div class="tips-line">🎞️ 画面：第一章原版动画 · 英文旁白 · 全长 2:49。配音时自动静音。</div>
+      <div style="margin-top:12px;">
+        <span class="recdot" id="dubDot"></span><b id="dubStatus">准备就绪 —— 先听一句，再配一句！</b>
+      </div>
+      <div class="btn-row" style="justify-content:center;margin-top:8px;">
+        <button class="btn-main" onclick="dubCompose(-1)">🎬 播放我的配音版（没配的句子播原声）</button>
+      </div>
+      <div id="dubScenes" style="margin-top:10px;display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-green" onclick="complete(4)">✅ 配音完成，通关！</button>
+      <button class="btn-ghost" id="next4" data-orig="下一步：终极朗读 →" onclick="tryGoto(5)">下一步：终极朗读 →</button>
+    </div>
+    <div class="done-flash" id="flash4">🎉 杰克和安妮听到你的声音，一定很想带你一起去恐龙谷！</div>
+  </section>
+
+  <!-- 阶段5：朗读 -->
+  <section class="stage" id="st5">
+    <h2><span class="num">5</span>终极挑战：完整朗读一遍 📖</h2>
+    <div class="story">
+      这一周的视频、耳朵、游戏、配音，都是为了这一刻：<b>捧起书，把 Chapter 1 从头到尾读一遍！</b>
+      读之前先听一遍原声"热耳朵"，然后按下录音，大声读出来。
+    </div>
+    <div class="round-card" style="margin-top:12px;text-align:left;">
+      <h4 style="margin-top:0;">🔖 跟着原声读：读到哪句，哪句就点亮（中文在下面对着看）</h4>
+      <div class="btn-row" style="justify-content:flex-start;">
+        <button class="btn-ghost" id="karPlay">🔊 播放原声 · 逐句点亮</button>
+        <button class="btn-ghost" id="karStop">⏹ 停止</button>
+        <button class="btn-ghost" id="karZhToggle">🙈 隐藏中文翻译</button>
+      </div>
+      <div id="karText" style="margin-top:10px;font-size:16px;line-height:2;"></div>
+    </div>
+    <div class="rec-stage">
+      <span class="recdot" id="readDot"></span><b id="readStatus">准备就绪 —— 想好了就按下录音按钮</b>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn-main" id="readBtn">🎤 开始朗读录音</button>
+        <button class="btn-ghost hidden" id="readStopBtn">⏹ 读完了</button>
+      </div>
+      <div id="readResult" class="hidden" style="margin-top:12px;">
+        <h3 style="margin-top:0;">🎧 回放你的朗读</h3>
+        <audio id="readPlay" controls></audio>
+        <div class="tips-line">给自己打个分吧——你读得比第一遍泛听时好多了，对不对？</div>
+        <div class="star-row" id="readStars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <div class="btn-row" style="justify-content:center;">
+          <button class="btn-main" onclick="exportRec('read')">📤 转发 / 保存录音</button>
+          <button class="btn-ghost" onclick="delRec('read')">🗑 重录</button>
+        </div>
+        <div class="tips-line">「转发」可直接分享到微信等 App（电脑浏览器不支持时，会自动把 .wav 音频文件保存到电脑，再手动发送即可）。</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-green" onclick="complete(5)">✅ 朗读完成，通关！</button>
+    </div>
+    <div class="done-flash" id="flash5">🎉 第五章……不对，第一章，完全攻略！下周见！</div>
+
+    <div class="medal" id="medal">
+      <div class="big">🏆🦕🌳</div>
+      <h2 style="justify-content:center;">Chapter 1 攻略完成！</h2>
+      <p>你已经是神奇的树屋冒险家了。下周同一时间，树屋会带你去<b>恐龙谷</b>……<br>（下一章：Chapter 2 - The Monster？不，先回到 Chapter 1 的结尾看个究竟 😄）</p>
+      <p style="margin-top:8px;color:#8a7f6e;font-size:13px;">别忘了把你的配音和朗读分享给家人听一听！</p>
+    </div>
+  </section>
+
+  <footer>🌱 一周一章俱乐部 · Magic Tree House #1 Dinosaurs Before Dark · 视频/音频/原书 PDF 已本地嵌入，仅限家庭学习使用</footer>
+</div>
+
+<script>
+const VIDEO_SRC="assets/chapter01.mp4";
+const AUDIO_SRC="assets/chapter01.mp3";
+const COVER_SRC="assets/cover.jpg";
+// Safari/iOS 无法加载超大 data URI 媒体：先解码为 Blob URL（所有浏览器通用），失败时回退 data URI
+function _toBlobURL(u){
+  if(u.indexOf("data:")!==0)return u;
+  try{
+    const head=u.slice(0,u.indexOf(",")),b64=u.slice(u.indexOf(",")+1);
+    const mime=(head.match(/data:([^;]+)/)||[,"application/octet-stream"])[1];
+    const bin=atob(b64),arr=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
+    return URL.createObjectURL(new Blob([arr],{type:mime}));
+  }catch(err){return u;}
+}
+window._mediaURL={audio:_toBlobURL(AUDIO_SRC),video:_toBlobURL(VIDEO_SRC)};
+document.querySelectorAll("[data-needs=\"video\"]").forEach(e=>e.src=window._mediaURL.video);
+document.querySelectorAll("[data-needs=\"audio\"]").forEach(e=>e.src=window._mediaURL.audio);
+document.querySelectorAll("[data-needs=\"cover\"]").forEach(e=>e.src=COVER_SRC);
+document.querySelectorAll("[data-poster=\"cover\"]").forEach(e=>e.poster=COVER_SRC);
+document.querySelectorAll("[data-needs=\"audio\"]").forEach(e=>e.addEventListener("error",function(){if(e.src!==AUDIO_SRC)e.src=AUDIO_SRC;}));
+
+/* ================= 数据 ================= */
+const STAGES=[
+ {n:1,name:"看视频",ic:"🎬"},
+ {n:2,name:"泛听×3",ic:"🎧"},
+ {n:3,name:"生词游戏",ic:"🎮"},
+ {n:4,name:"配音",ic:"🎙️"},
+ {n:5,name:"朗读",ic:"📖"}];
+const DAYS=["周一","周二","周三","周四","周五","周六","周日"];
+const DAYTASK=["看视频","泛听①","泛听②③","生词游戏","配音","朗读+自评","颁奖复盘 🏆"];
+const DAYOFSTAGE={1:[0],2:[1,2],3:[3],4:[4],5:[5,6]};
+
+const WORDS=[
+ {en:"creek",zh:"小溪",img:"wordpics/creek.jpg",ex:"They ran past a creek in the woods.",exZh:"他们跑过树林里的一条小溪。"},
+ {en:"rope ladder",zh:"绳梯",img:"wordpics/ropeladder.jpg",ex:"A rope ladder hung from the tallest tree.",exZh:"一架绳梯从最高的树上垂下来。"},
+ {en:"oak tree",zh:"橡树",img:"wordpics/oaktree.jpg",ex:"Annie stood under a tall oak tree.",exZh:"安妮站在一棵高高的橡树下。"},
+ {en:"branch",zh:"树枝",img:"wordpics/branch.jpg",ex:"The tree house was between two branches.",exZh:"树屋藏在两根树枝之间。"},
+ {en:"monster",zh:"怪物 · 怪兽",img:"wordpics/monster.jpg",ex:"Help! A monster!",exZh:"救命！有怪物！"},
+ {en:"pretend",zh:"假装 · 假想的",img:"wordpics/pretend.jpg",ex:"Annie loved pretend games.",exZh:"安妮最爱假装的游戏。"},
+ {en:"whisper",zh:"轻声说",img:"wordpics/whisper.jpg",ex:"Jack began to whisper.",exZh:"杰克开始小声说话。"},
+ {en:"tuck",zh:"夹住 · 塞进",img:"wordpics/tuck.jpg",ex:"He tucked the book under his arm.",exZh:"他把书夹在胳膊底下。"},
+ {en:"belong to",zh:"属于",img:"wordpics/belongto.jpg",ex:"Who does this tree house belong to?",exZh:"这间树屋是谁的？"},
+ {en:"be filled with",zh:"充满 · 装满",img:"wordpics/filledwith.jpg",ex:"The tree house was filled with books.",exZh:"树屋里装满了书。"},
+ {en:"grip",zh:"紧紧抓住",img:"wordpics/grip.jpg",ex:"He gripped the sides of the rope ladder.",exZh:"他紧紧抓住绳梯两边。"},
+ {en:"disappear",zh:"消失",img:"wordpics/disappear.jpg",ex:"Annie disappeared into the tree house.",exZh:"安妮钻进树屋不见了。"}];
+const PIC=Object.fromEntries(WORDS.map(w=>[w.en,w.img]));
+
+/* 官方完整词表（来自精读课程《单词.pdf》，36 条） */
+const FULL_WORDS=[
+ ["creek","小溪 · 溪流"],["rope ladder","绳梯"],["Pennsylvania","宾夕法尼亚州"],
+ ["late-afternoon","傍晚"],["oak tree","橡树"],["branch","树枝"],
+ ["pretend","假想的 · 假装"],["monster","怪物 · 怪兽"],["spend","花费（时间）"],
+ ["race into / out of","冲进 / 冲出"],["alone","独自"],["Leave me alone!","别烦我！"],
+ ["be about to","即将"],["groan","哼 · 呻吟"],["shout for help","高声呼救"],
+ ["be lit with…","被……照亮"],["head","往…方向走"],["point at","指向"],
+ ["all the way","一路（形容漫长）"],["whisper","轻声说"],["tuck","夹住"],
+ ["belong to","属于"],["teeny","一点点"],["a teeny minute","一小会儿"],
+ ["have to do sth","必须要做某事"],["sigh","叹气"],["keep doing sth","一直做某事"],
+ ["when（conj.）","刚…就……"],["poke","伸出 · 露出"],["be filled with","充满了"],
+ ["push into place","推到合适的位置"],["Race you!","快跑！比一比！"],["grip","抓"],
+ ["Watch out!","当心！"],["disappear","消失"],["set（太阳）","落下"]];
+
+
+/* ================= 状态 ================= */
+let state=JSON.parse(localStorage.getItem("mth_w1")||'{"done":{},"loops":0,"stars":0,"gw":{}}');
+if(!state.gw)state.gw={};
+function save(){localStorage.setItem("mth_w1",JSON.stringify(state));renderProgress();}
+function curStage(){for(let i=1;i<=5;i++){if(!state.done[i])return i;}return 6;}
+function renderProgress(){
+  const n=Object.keys(state.done).length,pct=Math.round(n/5*100);
+  document.getElementById("pPct").textContent=pct+"%";
+  document.getElementById("pFill").style.width=pct+"%";
+  const ps=document.getElementById("pSteps");ps.innerHTML="";
+  STAGES.forEach(s=>{
+    const d=document.createElement("div");
+    d.className="pstep"+(state.done[s.n]?" done":(curStage()===s.n?" cur":""));
+    d.innerHTML=`<span class="ic">${state.done[s.n]?"✅":(s.n>curStage()?"🔒":s.ic)}</span>${s.name}`;
+    d.onclick=()=>tryGoto(s.n);ps.appendChild(d);
+  });
+  // 周计划条
+  const wb=document.getElementById("weekbar");wb.innerHTML="";
+  const doneDays=new Set();Object.keys(state.done).forEach(k=>DAYOFSTAGE[k].forEach(x=>doneDays.add(x)));
+  DAYS.forEach((d,i)=>{
+    const el=document.createElement("div");
+    el.className="day"+(doneDays.has(i)?" on":"");
+    el.innerHTML=`<b>${d}</b><div class="d-task">${DAYTASK[i]}</div>`;
+    wb.appendChild(el);
+  });
+  // 奖牌
+  if(n===5)document.getElementById("medal").classList.add("show");
+   // 游戏解锁按钮
+   if(quizWin){document.getElementById("btnGameWin").disabled=false;document.getElementById("btnGameWin").textContent="✅ 看图选词通关！";}
+   // 阶段门禁状态刷新
+   updateGates();
+ }
+const NEXT_REQ={1:{stage:1,label:"看视频"},2:{stage:2,label:"泛听×3"},3:{stage:3,label:"生词游戏"},4:{stage:4,label:"配音"}};
+function updateGates(){
+  for(const k in NEXT_REQ){
+    const b=document.getElementById("next"+k);if(!b)continue;
+    const r=NEXT_REQ[k];const ok=!!state.done[r.stage];
+    b.disabled=!ok;
+    b.textContent=ok?b.dataset.orig:("🔒 通关「"+r.label+"」后解锁");
+  }
+}
+function resetProgress(){
+  if(!confirm("确定要清空本章进度、从头开始吗？（录音不会删除）"))return;
+  localStorage.removeItem("mth_w1");
+  localStorage.removeItem("mth_script");
+  location.reload();
+}
+let toastTimer=null;
+function toast(msg){
+  let t=document.getElementById("mthToast");
+  if(!t){t=document.createElement("div");t.id="mthToast";
+    t.style.cssText="position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#8a5a2b;color:#fff;padding:12px 22px;border-radius:14px;font-size:15px;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:80vw;text-align:center;";
+    document.body.appendChild(t);}
+  t.textContent=msg;t.style.opacity=1;
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.style.opacity=0,2400);
+}
+function stageUnlocked(n){return n<=curStage();}
+function goto(n){document.querySelectorAll(".stage").forEach(s=>s.classList.remove("active"));
+  document.getElementById("st"+n).classList.add("active");
+  const dash=document.getElementById("dash");if(dash)dash.style.display=(n===0?"none":"block");
+  const tb=document.getElementById("topbar");if(tb)tb.style.display=(n===0?"none":"block");
+  window.scrollTo({top:0,behavior:"smooth"});}
+function tryGoto(n){
+  if(n>=1&&n<=5&&!stageUnlocked(n)){
+    const msg={2:"先看完动画片并点「✅ 我看完视频了，通关！」，才能解锁泛听哦！",
+               3:"先泛听三遍并点「✅ 三遍听完，通关！」，才能解锁生词游戏哦！",
+               4:"先把 12 题看图选词全部答完并通关，才能解锁配音哦！",
+               5:"先完成配音（听一句、配一句），才能解锁终极朗读哦！"}[n]
+              ||"先把当前阶段完成才能进入下一阶段哦！";
+    toast("🔒 "+msg);return;
+  }
+  goto(n);
+}
+function complete(n){state.done[n]=true;save();
+  const f=document.getElementById("flash"+n);f.classList.add("show");setTimeout(()=>f.classList.remove("show"),2500);
+  toast("🎉 通关成功！下一阶段已解锁！");}
+
+/* ================= IndexedDB 资源缓存 ================= */
+let db;const DBOpen=indexedDB.open("mthRes",1);
+DBOpen.onupgradeneeded=e=>{const d=e.target.result;
+  if(!d.objectStoreNames.contains("files"))d.createObjectStore("files");};
+DBOpen.onsuccess=e=>{db=e.target.result;loadAllRes();};
+DBOpen.onerror=()=>{console.warn("IndexedDB 不可用，将使用临时会话资源");};
+
+function putRes(key,blob){return new Promise(res=>{
+  if(!db){sessionRes[key]=blob;applyRes();return res();}
+  const tx=db.transaction("files","readwrite");tx.objectStore("files").put(blob,key);
+  tx.oncomplete=()=>{applyRes();res();};});}
+function getRes(key){return new Promise(res=>{
+  if(!db){res(sessionRes[key]||null);return;}
+  const tx=db.transaction("files","readonly");const r=tx.objectStore("files").get(key);
+  r.onsuccess=()=>res(r.result||null);r.onerror=()=>res(null);});}
+const sessionRes={};
+
+function pickFile(key){
+  const inp=document.createElement("input");inp.type="file";
+  inp.accept=key==="video"?"video/mp4,video/*":"audio/mpeg,audio/*";
+  inp.onchange=async()=>{const f=inp.files[0];if(!f)return;await putRes(key,f);};inp.click();
+}
+async function loadAllRes(){for(const k of["video","audio","audio2"])await getRes(k);applyRes();}
+function applyRes(){
+  // 网页默认已嵌入 assets/ 里的资源；这里仅处理"用户手动替换"的覆盖文件
+  const v=getCachedURL("video");
+  if(v){
+    document.getElementById("videoPlayer").src=v;
+    setResOk("resVideo","✅ 已切换到你手动选择的视频");
+  }
+  const a=getCachedURL("audio");
+  if(a){document.getElementById("audioPlayer").src=a;
+    setResOk("resAudio","✅ 已切换到你手动选择的音频");}
+  const a2=getCachedURL("audio2");
+  if(a2){
+    const slot=document.getElementById("bilingualSlot");
+    if(slot)slot.innerHTML=`<audio controls src="${a2}" style="width:100%;margin-top:6px;"></audio>`;
+    setResOk("resAudio2","✅ 双语音频已装入");
+  }
+}
+function setResOk(id,msg){const el=document.getElementById(id);
+  el.classList.add("ok");el.querySelector(".st").textContent=msg;}
+let urlCache={};
+function getCachedURL(key){
+  if(urlCache[key])return urlCache[key];
+  const b=sessionRes[key]||null;return b?(urlCache[key]=URL.createObjectURL(b)):null;
+}
+/* getRes 恢复后需要再建 URL */
+async function restoreURLs(){
+  for(const k of["video","audio","audio2"]){
+    const b=await getRes(k);if(b){sessionRes[k]=b;getCachedURL(k);}}
+  applyRes();
+}
+setTimeout(restoreURLs,300);
+
+/* ================= 听力 ================= */
+const sb=document.getElementById("scriptBox");
+const DEFAULT_SCRIPT=`1. Into the Woods
+“Help! A monster!” said Annie. “Yeah, sure,” said Jack. “A real monster in Frog Creek, Pennsylvania.”
+“Run, Jack!” said Annie. She ran up the road.
+Oh, brother. This is what he got for spending time with his seven-year-old sister. Annie loved pretend stuff. But Jack was eight and a half. He liked real things.
+“Watch out, Jack! The monster’s coming! Race you!”
+“No, thanks,” said Jack.
+Annie raced alone into the woods. Jack looked at the sky. The sun was about to set.
+“Come on, Annie! It’s time to go home!”
+But Annie had disappeared. Jack waited. No Annie.
+“Annie!” he shouted again.
+“Jack! Jack! Come here!”
+Jack groaned. “This better be good,” he said.
+Jack left the road and headed into the woods. The trees were lit with a golden late-afternoon light.
+“Come here!” called Annie.
+There she was. Standing under a tall oak tree.
+“Look,” she said. She was pointing at a rope ladder. The longest rope ladder Jack had ever seen.
+“Wow,” he whispered. The ladder went all the way up to the top of the tree. There—at the top—was a tree house. It was tucked between two branches.
+“That must be the highest tree house in the world,” said Annie.
+“Who built it?” asked Jack. “I’ve never seen it before.”
+“I don’t know. But I’m going up,” said Annie.
+“No. We don’t know who it belongs to,” said Jack.
+“Just for a teeny minute,” said Annie. She started up the ladder.
+“Annie, come back!” She kept climbing.
+Jack sighed. “Annie, it’s almost dark. We have to go home.”
+Annie disappeared inside the tree house.
+“An-nie!”
+Jack waited a moment. He was about to call again when Annie poked her head out of the tree house window.
+“Books!” she shouted.
+“What?”
+“It’s filled with books!”
+Oh, man! Jack loved books. He pushed his glasses into place. He gripped the sides of the rope ladder, and up he went.`;
+sb.value=localStorage.getItem("mth_script")||DEFAULT_SCRIPT;
+sb.oninput=()=>localStorage.setItem("mth_script",sb.value);
+function countLoop(){if(state.loops<3){state.loops++;save();renderLoops();}}
+function renderLoops(){
+  [ "ldA","ldB","ldC","ld1","ld2","ld3"].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(i<3&&["ldA","ldB","ldC"].includes(id)){el.className="loop-dot"+(state.loops>i?" hit":"");}
+    else{const idx=["ld1","ld2","ld3"].indexOf(id);el.className="loop-dot"+(state.loops>idx?" hit":"");}
+  });
+}
+renderLoops();
+
+/* ================= 生词：先学后测（百词斩式） ================= */
+// 官方完整词表（36 条，选看）
+(function buildFull(){
+  const el=document.getElementById("fullWordTable");
+  const rows=FULL_WORDS.map((w,i)=>`<span class="wchip">${String(i+1).padStart(2,"0")} <b>${w[0]}</b> ${w[1]}</span>`).join("");
+  el.innerHTML=`<div class="word-cloud">${rows}</div>`;
+})();
+
+/* ---- 学一学：逐词记忆卡 ---- */
+let lOrder=[...Array(WORDS.length).keys()], lPos=0, lReview=new Set(), lRound=0, lDone=false;
+function switchW(which){
+  document.getElementById("tabLearn").classList.toggle("on",which==="learn");
+  document.getElementById("tabQuiz").classList.toggle("on",which==="quiz");
+  document.getElementById("paneLearn").classList.toggle("on",which==="learn");
+  document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
+}
+function _say(txt,rate){
+  try{
+    if(!window.speechSynthesis)return;
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(txt);
+    u.lang="en-US"; u.rate=rate||0.85; u.pitch=1.05;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function speakWord(){_say(WORDS[lOrder[lPos]].en,0.8);}
+function speakEx(){_say(WORDS[lOrder[lPos]].ex,0.85);}
+function lRender(){
+  const wrap=document.getElementById("lCardWrap"),fin=document.getElementById("lFinish");
+  if(lDone){wrap.style.display="none";fin.classList.remove("hidden");return;}
+  wrap.style.display="";fin.classList.add("hidden");
+  const w=WORDS[lOrder[lPos]];
+  document.getElementById("lImg").src=w.img;
+  document.getElementById("lWord").textContent=w.en;
+  document.getElementById("lZh").textContent=w.zh;
+  document.getElementById("lEx").textContent=w.ex;
+  document.getElementById("lExZh").textContent=w.exZh;
+  const total=WORDS.length;
+  document.getElementById("lProg").textContent=lRound===0
+    ? `第 ${lPos+1} / ${total} 个 · 看图片、读例句，慢慢记住它 😊`
+    : `🔁 复习第 ${lPos+1} / ${lOrder.length} 个 · 刚才没记住的，再看一眼`;
+  document.getElementById("lPrev").disabled=(lPos===0);
+  document.getElementById("lNextBtn").textContent=(lPos>=lOrder.length-1)?"😎 学完啦 →":"😎 记住了 →";
+  // 进度点
+  const dots=document.getElementById("lDots");dots.innerHTML="";
+  for(let i=0;i<total;i++){
+    const d=document.createElement("div");d.className="ldot";
+    const idx=i;
+    if(lReview.has(idx))d.classList.add("rev");
+    else if(lRound>0 || lPos>idx)d.classList.add("ok");
+    if(lOrder[lPos]===idx)d.classList.add("cur");
+    dots.appendChild(d);
+  }
+}
+function lStep(dir){
+  const np=lPos+dir;
+  if(np<0||np>=lOrder.length)return;
+  lPos=np;lRender();
+}
+function lMark(ok){
+  const idx=lOrder[lPos];
+  if(!ok)lReview.add(idx);else lReview.delete(idx);
+  if(lPos<lOrder.length-1){lPos++;lRender();return;}
+  // 本轮结束
+  if(lRound===0 && lReview.size>0){
+    lRound=1;lOrder=[...lReview];lPos=0;lRender();return;
+  }
+  lDone=true;state.gw.learnDone=true;save();lRender();
+}
+function lRestart(){lRound=0;lPos=0;lReview=new Set();lDone=false;lOrder=[...Array(WORDS.length).keys()];lRender();}
+if(state.gw.learnDone){lDone=true;}
+lRender();
+
+/* ---- 考一考：看图选词（真实插图） ---- */
+let quizWin=state.gw.quiz===true;
+let qR=0,qScore=0,qEn=null,qZh=null,qAns=null;
+function buildOpts(id,arr,onpick){
+  const box=document.getElementById(id);box.innerHTML="";
+  [...arr].sort(()=>Math.random()-.5).forEach(o=>{
+    const d=document.createElement("div");d.className="wopt";
+    d.textContent=o;
+    d.onclick=()=>{
+      if(d.classList.contains("pick"))return;
+      [...box.children].forEach(x=>x.classList.remove("pick"));
+      d.classList.add("pick");
+      onpick(o);
+    };
+    box.appendChild(d);
+  });
+}
+function qCheck(){
+  const fb=document.getElementById("qFeedback");
+  if(qEn&&qZh){
+    if(qEn===qAns.en&&qZh===qAns.zh){
+      qScore+=10;document.getElementById("qScore").textContent=qScore;
+      fb.textContent="✅ 全对！+10 分";fb.style.color="var(--green)";
+      document.getElementById("qNextRow").classList.remove("hidden");
+    }else{
+      let msg=[];
+      if(qEn!==qAns.en)msg.push(`英文应该是「${qAns.en}」`);
+      if(qZh!==qAns.zh)msg.push(`中文是「${qAns.zh}」`);
+      fb.textContent="再想想："+msg.join("，");fb.style.color="var(--red)";
+      qEn=null;qZh=null;
+      document.querySelectorAll("#qEnOpts .wopt,#qZhOpts .wopt").forEach(x=>x.classList.remove("pick"));
+    }
+  }else{
+    fb.textContent=qEn?"英文选好了，再选中文意思～":"先选英文单词～";
+    fb.style.color="";
+  }
+}
+function showQuizDone(msg){
+  document.getElementById("qPic").innerHTML=`<span style="font-size:64px;">🏆</span>`;
+  const fb=document.getElementById("qFeedback");
+  fb.textContent=msg;fb.style.color="var(--green)";
+  document.getElementById("qQuizArea").style.display="none";
+  document.getElementById("qNextRow").classList.add("hidden");
+  document.getElementById("qReplayRow").classList.remove("hidden");
+}
+function qNext(){
+  qR++;
+  if(qR>WORDS.length){quizWin=true;state.gw.quiz=true;save();
+    showQuizDone(`全部答完！得分 ${qScore}，生词都认识你啦！`);
+    return;}
+  document.getElementById("qRound").textContent=qR;
+  qEn=null;qZh=null;
+  qAns=WORDS[Math.floor(Math.random()*WORDS.length)];
+  document.getElementById("qPic").innerHTML=`<img class="qpic-img" src="${qAns.img}" alt="看图猜词">`;
+  const fb=document.getElementById("qFeedback");
+  fb.textContent="先选英文，再选中文～";fb.style.color="";
+  document.getElementById("qNextRow").classList.add("hidden");
+  const ens=new Set([qAns.en]);
+  while(ens.size<4){ens.add(WORDS[Math.floor(Math.random()*WORDS.length)].en);}
+  const zhs=new Set([qAns.zh]);
+  while(zhs.size<4){zhs.add(WORDS[Math.floor(Math.random()*WORDS.length)].zh);}
+  buildOpts("qEnOpts",[...ens],o=>{qEn=o;qCheck();});
+  buildOpts("qZhOpts",[...zhs],o=>{qZh=o;qCheck();});
+}
+document.getElementById("qNext").onclick=qNext;
+document.getElementById("qReplay").onclick=()=>{
+  qR=0;qScore=0;document.getElementById("qScore").textContent=0;
+  document.getElementById("qQuizArea").style.display="";
+  document.getElementById("qReplayRow").classList.add("hidden");
+  qNext();
+};
+qNext();
+if(quizWin){
+  qR=WORDS.length+1;
+  document.getElementById("qRound").textContent=WORDS.length;
+  showQuizDone("✅ 这一章的看图选词已经通关啦！");
+}
+
+/* ================= 录音（配音 & 朗读） ================= */
+let mediaStream=null,recorder=null,chunks=[],recTimer=null,activeRec=null;
+async function startRec(kind){
+  try{mediaStream=await navigator.mediaDevices.getUserMedia({audio:true});}
+  catch(e){alert("需要允许使用麦克风才能录音哦 🎤");return;}
+  chunks=[];
+  const mime=MediaRecorder.isTypeSupported("audio/webm")?"audio/webm":"";
+  recorder=new MediaRecorder(mediaStream,mime?{mimeType:mime}:undefined);
+  recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};
+  recorder.onstop=()=>{finishRec(kind);};
+  recorder.start();
+  activeRec=kind;
+  document.getElementById(kind+"Dot").classList.add("live");
+  document.getElementById(kind+"Btn").classList.add("hidden");
+  document.getElementById(kind+"StopBtn").classList.remove("hidden");
+  document.getElementById(kind+"Status").textContent="录音中……大声说出来！";
+}
+function stopRec(kind){
+  if(recorder&&recorder.state!=="inactive")recorder.stop();
+  if(mediaStream)mediaStream.getTracks().forEach(t=>t.stop());
+  document.getElementById(kind+"Dot").classList.remove("live");
+  document.getElementById(kind+"Btn").classList.remove("hidden");
+  document.getElementById(kind+"StopBtn").classList.add("hidden");
+  document.getElementById(kind+"Status").textContent="处理中……";
+}
+function finishRec(kind){
+  const blob=new Blob(chunks,{type:chunks[0]?.type||"audio/webm"});
+  const url=URL.createObjectURL(blob);
+  putRes("rec_"+kind,blob);
+  const box=document.getElementById(kind+"Result");box.classList.remove("hidden");
+  document.getElementById(kind+"Play").src=url;
+  document.getElementById(kind+"Status").textContent="录音完成 ✅";
+}
+document.getElementById("readBtn").onclick=()=>startRec("read");
+document.getElementById("readStopBtn").onclick=()=>stopRec("read");
+async function delRec(kind){
+  if(db){const tx=db.transaction("files","readwrite");tx.objectStore("files").delete("rec_"+kind);}
+  document.getElementById(kind+"Result").classList.add("hidden");
+  document.getElementById(kind+"Status").textContent="准备就绪 —— 想好了就按下录音按钮";
+  await restoreRecs();
+}
+async function restoreRecs(){
+  const b=await getRes("rec_read");
+  if(b){document.getElementById("readResult").classList.remove("hidden");
+    document.getElementById("readPlay").src=URL.createObjectURL(b);
+    document.getElementById("readStatus").textContent="上次录音已恢复 ✅";}
+}
+setTimeout(restoreRecs,600);
+
+/* ================= 逐句配音（基于原版动画英文旁白，时间戳来自离线语音识别） ================= */
+const DUB_SCENES=[
+ {name:"第 1 幕 · 喊救命",range:[15,37]},
+ {name:"第 2 幕 · 走进树林",range:[37,68]},
+ {name:"第 3 幕 · 发现绳梯",range:[68,104]},
+ {name:"第 4 幕 · 爬上树屋",range:[104,130.4]},
+ {name:"第 5 幕 · 树屋里全是书",range:[130.4,169]}];
+const DUB_SENTS=[
+ [18.8,20.4,'Help!'],
+ [27.6,29.6,'"A monster!"  "Yeah, sure."'],
+ [29.9,32.3,'"A real monster in Frog Creek, Pennsylvania."'],
+ [33.7,34.7,'"Run, Jack!"'],
+ [35.1,36.4,'She ran up the road.'],
+ [38.9,40.6,'Oh, brother.'],
+ [41.3,44.5,'This is what he got for spending time with his seven-year-old sister.'],
+ [45.0,46.7,'Annie loved pretend stuff.'],
+ [47.1,48.2,'But Jack was eight.'],
+ [48.8,50.0,'He liked real things.'],
+ [50.2,51.2,'"Watch out, Jack.'],
+ [51.4,52.6,"The monster's coming."],
+ [52.7,53.5,"I'll race you."],
+ [53.6,54.3,'"No thanks."'],
+ [54.6,58.0,'Annie raced alone into the woods.  Jack looked at the sky.'],
+ [58.3,59.8,'The sun was about to set.'],
+ [60.3,63.2,'"Come on, Annie.  It\'s time to go home."'],
+ [64.2,67.1,"But Annie didn't answer.  Jack waited."],
+ [68.7,71.6,'"Annie!  Annie!"'],
+ [72.5,73.6,'He called again.'],
+ [78.2,80.9,'"Jack!  Jack!  Come here!  Quick!"'],
+ [81.7,83.4,'"This better be good."'],
+ [83.3,86.4,'Jack left the road and headed into the woods.'],
+ [87.2,90.4,'The trees were lit with a golden late-afternoon light.'],
+ [90.7,91.7,'Over here!'],
+ [92.4,95.1,'Annie was standing under a tall oak tree.'],
+ [96.8,99.8,'"Look!"  She pointed at a rope ladder.'],
+ [100.4,102.5,'It was hanging down from high in the tree.'],
+ [103.0,103.8,'"Wow!"'],
+ [104.6,109.0,'At the top of the tree was a tree house, tucked between two branches.'],
+ [109.5,111.9,'"That must be the highest tree house in the world."'],
+ [111.9,113.0,'"Who built it?"'],
+ [113.1,114.2,'"I\'ve never seen it before."'],
+ [115.1,116.7,'"I don\'t know, but I\'m going up."'],
+ [116.8,118.7,'"No, we don\'t know who it belongs to."'],
+ [118.8,120.3,'"Just for a teeny minute."'],
+ [120.4,121.7,'She started up the ladder.'],
+ [123.7,125.3,'"Annie, come back!"'],
+ [125.6,127.1,'But Annie kept climbing.'],
+ [127.5,130.2,'She climbed all the way up to the tallest branches.'],
+ [130.7,134.3,'"Annie, it\'s almost dark.  We have to go home."'],
+ [134.7,137.0,'Annie disappeared inside the tree house.'],
+ [137.4,138.1,'"Annie!"'],
+ [139.2,140.8,'Jack waited a moment.'],
+ [141.3,145.6,'He was about to call again when Annie poked her head out of the tree house window.'],
+ [145.7,146.3,'"Books!"'],
+ [146.6,147.3,'"What?"'],
+ [147.7,149.2,'"It\'s filled with books!"'],
+ [149.9,150.9,'"Oh, man."'],
+ [151.8,152.8,'He loved books.'],
+ [154.0,156.0,'Jack pushed his glasses into place.'],
+ [156.6,159.5,'He gripped the sides of the rope ladder and started up.']];
+const DUB_ZH=[
+  '救命啊！',
+  '“有怪物！”“是啊，当然啦。”',
+  '“在宾夕法尼亚的蛙溪镇，有一只真正的怪物。”',
+  '“快跑，杰克！”',
+  '她沿着路跑远了。',
+  '唉，真拿她没办法。',
+  '这就是他陪七岁妹妹玩的“下场”。',
+  '安妮最喜欢假装的游戏。',
+  '可杰克已经八岁了。',
+  '他喜欢真实的东西。',
+  '“小心，杰克。',
+  '怪物来啦。”',
+  '我跟你比赛，看谁先到！',
+  '“不用了，谢谢。”',
+  '安妮一个人跑进了树林。杰克抬头看了看天空。',
+  '太阳快要落山了。',
+  '“快点，安妮，该回家了。”',
+  '可是安妮没有回答。杰克等着。',
+  '“安妮！安妮！”',
+  '他又喊了一遍。',
+  '“杰克！杰克！快过来！快点！”',
+  '“最好是真有重要的事。”',
+  '杰克离开大路，朝树林走去。',
+  '树木沐浴在傍晚金色的阳光里。',
+  '在这儿！',
+  '安妮正站在一棵高大的橡树下。',
+  '“看！”她指着一架绳梯。',
+  '绳梯从高高的树上垂下来。',
+  '“哇！”',
+  '树顶上有一间树屋，藏在两根树枝之间。',
+  '“那一定是世界上最高的树屋了。”',
+  '“是谁建的呢？”',
+  '“我以前从来没见过它。”',
+  '“我不知道，但我要爬上去。”',
+  '“不行，我们不知道它是谁的。”',
+  '“就上去一小会儿嘛。”',
+  '她开始爬梯子。',
+  '“安妮，回来！”',
+  '可是安妮继续往上爬。',
+  '她一路爬到了最高的树枝旁。',
+  '“安妮，天快黑了，我们得回家了。”',
+  '安妮钻进树屋里不见了。',
+  '“安妮！”',
+  '杰克等了一会儿。',
+  '他正要再喊，安妮从树屋窗口探出头来。',
+  '“书！”',
+  '“什么？”',
+  '“里面全是书！”',
+  '“哦，天哪。”',
+  '他最喜欢书了。',
+  '杰克扶了扶眼镜。',
+  '他抓住绳梯两边，开始往上爬。'];
+const dvEl=document.getElementById("dubVideo");
+dvEl.addEventListener("error",()=>{document.getElementById("dubStatus").textContent="⚠️ 视频加载失败：请换 Chrome/Edge 浏览器打开本页面，或检查文件是否完整";});
+let dubRec=null,dubChunks=[],dubStream=null,dubWatch=null,composeTimer=null;
+const DUB_EXTRA=8;
+const dubDone=new Set(),sRecURL={};
+function sceneOf(i){for(let s=DUB_SCENES.length-1;s>=0;s--){if(DUB_SENTS[i][0]>=DUB_SCENES[s].range[0])return s;}return 0;}
+function renderDub(){
+  const box=document.getElementById("dubScenes");box.innerHTML="";
+  DUB_SCENES.forEach((sc,si)=>{
+    const idx=DUB_SENTS.map((s,i)=>i).filter(i=>sceneOf(i)===si);
+    const det=document.createElement("details");det.open=si===0;
+    det.innerHTML=`<summary style="cursor:pointer;font-weight:700;color:var(--brown);">${sc.name}（${idx.length} 句）</summary>
+      <div class="btn-row" style="justify-content:flex-start;margin-top:6px;">
+        <button class="btn-ghost" onclick="sListenScene(${si})">▶️ 听这一幕原声</button>
+        <button class="btn-ghost" onclick="dubCompose(${si})">🎬 播放这一幕配音版</button></div>`;
+    idx.forEach(i=>{
+      const row=document.createElement("div");row.className="round-card";row.style.textAlign="left";row.style.marginTop="8px";
+      row.innerHTML=`<div style="font-size:15px;line-height:1.5;">${DUB_SENTS[i][2]}</div>
+        <div class="kar-zh">${DUB_ZH[i]||""}</div>
+        <div class="btn-row" style="justify-content:flex-start;margin-top:6px;">
+          <button class="btn-ghost" onclick="sListen(${i})">🔊 听原句</button>
+          <button class="btn-main" onclick="sDub(${i})">🎙 配这句</button>
+          <button class="btn-ghost hidden" id="sStop${i}" onclick="sStop()">⏹ 完成</button>
+          <span id="sOk${i}" class="${dubDone.has(i)?"":"hidden"}">✅</span></div>
+        <div class="${sRecURL[i]?"":"hidden"}" id="sRes${i}" style="margin-top:6px;">
+          <audio controls style="width:100%;"></audio>
+          <button class="btn-ghost" onclick="sDub(${i})">🔁 重配</button></div>`;
+      det.appendChild(row);
+      if(sRecURL[i])row.querySelector("audio").src=sRecURL[i];
+    });
+    box.appendChild(det);
+  });
+  updateDubOk();
+}
+function updateDubOk(){
+  DUB_SENTS.forEach((s,i)=>{const el=document.getElementById("sOk"+i);if(el)el.classList.toggle("hidden",!dubDone.has(i));});
+  document.getElementById("dubStatus").textContent=
+    dubDone.size>=DUB_SENTS.length?"🏆 全部句子配音完成！点上面「播放我的配音版」看你的动画片！":
+    `已配 ${dubDone.size}/${DUB_SENTS.length} 句 —— 一句一句来！`;
+}
+function stopWatch(){if(dubWatch){clearInterval(dubWatch);dubWatch=null;}}
+function sWatch(a,b,cb){stopWatch();
+  dubWatch=setInterval(()=>{if(dvEl.currentTime>=b||dvEl.ended){stopWatch();cb();}},150);}
+function playRange(a,b,cb){dvEl.currentTime=Math.max(0,a-0.2);dvEl.play();sWatch(a,b+0.3,cb);}
+function sListen(i){const s=DUB_SENTS[i];
+  dvEl.muted=false;
+  document.getElementById("dubStatus").textContent="🔊 听原句……注意发音和语气";
+  playRange(s[0],s[1],()=>{dvEl.pause();dvEl.muted=true;
+    document.getElementById("dubStatus").textContent="听完了！点「🎙 配这句」试试！";});}
+function sListenScene(si){const sc=DUB_SCENES[si];
+  dvEl.muted=false;
+  document.getElementById("dubStatus").textContent=`▶️ 正在播放「${sc.name}」原声……`;
+  playRange(sc.range[0],sc.range[1],()=>{dvEl.pause();dvEl.muted=true;
+    document.getElementById("dubStatus").textContent="听完啦！一句一句配起来！";});}
+async function sDub(i){const s=DUB_SENTS[i];
+  stopWatch();if(composeTimer){clearInterval(composeTimer);composeTimer=null;dvEl.pause();}
+  try{dubStream=await navigator.mediaDevices.getUserMedia({audio:true});}
+  catch(e){alert("需要允许使用麦克风才能录音哦 🎤");return;}
+  dubChunks=[];
+  const mime=MediaRecorder.isTypeSupported("audio/webm")?"audio/webm":"";
+  dubRec=new MediaRecorder(dubStream,mime?{mimeType:mime}:undefined);
+  dubRec.ondataavailable=e=>{if(e.data.size)dubChunks.push(e.data);};
+  dubRec.onstop=async()=>{
+    const blob=new Blob(dubChunks,{type:dubChunks[0]?.type||"audio/webm"});
+    await putRes("rec_s"+i,blob);
+    sRecURL[i]=URL.createObjectURL(blob);
+    const box=document.getElementById("sRes"+i);box.classList.remove("hidden");
+    box.querySelector("audio").src=sRecURL[i];
+    dubDone.add(i);updateDubOk();
+    document.getElementById("sStop"+i).classList.add("hidden");
+    if(dubStream){dubStream.getTracks().forEach(t=>t.stop());dubStream=null;}
+    document.getElementById("dubStatus").textContent=`第 ${i+1} 句配音完成 ✅（${dubDone.size}/${DUB_SENTS.length} 句）`;
+  };
+  dvEl.muted=true;
+  playRange(s[0],s[1],()=>{dvEl.pause();
+    let left=DUB_EXTRA;
+    document.getElementById("dubStatus").textContent=`原句播完啦！不用着急，慢慢读完 —— 还剩 ${left} 秒（读完可点「⏹ 完成」）`;
+    dubWatch=setInterval(()=>{left--;
+      if(left<=0){sStop();}
+      else document.getElementById("dubStatus").textContent=`慢慢读，不着急 —— 还剩 ${left} 秒（读完可点「⏹ 完成」）`;},1000);
+  });
+  dubRec.start();
+  document.getElementById("sStop"+i).classList.remove("hidden");
+  document.getElementById("dubStatus").textContent=`🎙 正在配音（原声先起，跟着读）：${s[2]}`;
+}
+function sStop(){stopWatch();dvEl.pause();
+  if(dubRec&&dubRec.state!=="inactive")dubRec.stop();}
+async function restoreDubs(){
+  for(let i=0;i<DUB_SENTS.length;i++){
+    const b=await getRes("rec_s"+i);
+    if(b){sRecURL[i]=URL.createObjectURL(b);dubDone.add(i);}
+  }
+  renderDub();
+}
+/* 合成回放：静音播放动画，到点插入你录的句子；没配的句子自动放原声 */
+function dubCompose(si){
+  stopWatch();if(composeTimer){clearInterval(composeTimer);composeTimer=null;}
+  const idx=DUB_SENTS.map((s,i)=>i).filter(i=>si<0||sceneOf(i)===si);
+  const a=si<0?DUB_SENTS[idx[0]][0]:DUB_SCENES[si].range[0];
+  const b=si<0?DUB_SCENES[DUB_SCENES.length-1].range[1]:DUB_SCENES[si].range[1];
+  const started=new Set(),ended=new Set(),act=new Map();
+  dvEl.muted=true;dvEl.currentTime=Math.max(0,a-0.3);dvEl.play();
+  document.getElementById("dubStatus").textContent="🎬 你的配音版播放中……";
+  composeTimer=setInterval(()=>{
+    const t=dvEl.currentTime;
+    for(const i of idx){const s=DUB_SENTS[i];
+      if(!started.has(i)&&t>=s[0]-0.05){started.add(i);
+        const url=sRecURL[i];
+        if(url){const au=new Audio(url);act.set(i,au);au.play();}
+        else dvEl.muted=false;}
+      if(started.has(i)&&!ended.has(i)&&t>=s[1]+0.05){ended.add(i);
+        const au=act.get(i);
+        if(au)au.pause();else dvEl.muted=true;}
+    }
+    if(t>=b||dvEl.ended){clearInterval(composeTimer);composeTimer=null;dvEl.pause();
+      act.forEach(au=>au.pause());
+      document.getElementById("dubStatus").textContent=`放映结束！已配 ${dubDone.size}/${DUB_SENTS.length} 句 —— 继续补齐吧！`;}
+  },100);
+}
+renderDub();
+setTimeout(restoreDubs,600);
+
+/* ================= 朗读星星 ================= */
+const stars=document.querySelectorAll("#readStars span");
+stars.forEach((s,i)=>s.onclick=()=>{state.stars=i+1;save();
+  stars.forEach((x,j)=>x.classList.toggle("lit",j<=i));});
+if(state.stars)stars.forEach((x,j)=>x.classList.toggle("lit",j<state.stars));
+
+/* ================= 标注式朗读（逐句点亮，时间戳来自离线语音识别） ================= */
+const READ_SENTS=[
+ [0.2,3.4,"Chapter 1. Into the Woods."],
+ [12.2,13.9,"“Help! A monster!”"],
+ [14.6,15.6,"said Annie."],
+ [15.7,17.5,"“Yeah, sure,”"],
+ [17.6,18.4,"said Jack."],
+ [18.5,21.3,"“A real monster in Frog Creek, Pennsylvania.”"],
+ [21.8,22.8,"“Run, Jack!”"],
+ [22.9,23.7,"said Annie."],
+ [24.3,25.4,"She ran up the road."],
+ [26.2,27.0,"Oh, brother."],
+ [26.9,31.2,"This is what he got for spending time with his seven-year-old sister."],
+ [32.1,34.0,"Annie loved pretend stuff."],
+ [34.5,36.0,"But Jack was eight and a half."],
+ [36.3,37.8,"He liked real things."],
+ [38.4,39.6,"“Watch out, Jack!"],
+ [39.9,41.0,"The monster’s coming!"],
+ [41.3,41.9,"Race you!”"],
+ [42.4,43.5,"“No, thanks,”"],
+ [43.9,44.6,"said Jack."],
+ [45.1,47.2,"Annie raced alone into the woods."],
+ [48.0,49.0,"Jack looked at the sky."],
+ [49.6,50.9,"The sun was about to set."],
+ [51.8,52.5,"“Come on, Annie!"],
+ [53.0,54.3,"It’s time to go home!”"],
+ [54.9,56.3,"But Annie had disappeared."],
+ [57.3,58.0,"Jack waited."],
+ [58.7,59.6,"No Annie."],
+ [60.2,61.0,"“Annie!”"],
+ [61.5,62.6,"he shouted again."],
+ [63.3,65.1,"“Jack! Jack! Come here!”"],
+ [65.8,67.2,"Jack groaned."],
+ [67.5,69.6,"“This better be good,” he said."],
+ [70.4,73.3,"Jack left the road and headed into the woods."],
+ [73.9,77.3,"The trees were lit with a golden late-afternoon light."],
+ [77.8,78.7,"“Come here!”"],
+ [79.2,79.9,"called Annie."],
+ [80.5,84.3,"There she was, standing under a tall oak tree."],
+ [84.9,85.6,"“Look,”"],
+ [85.9,89.0,"she said. She was pointing at a rope ladder."],
+ [89.5,93.0,"The longest rope ladder Jack had ever seen."],
+ [93.7,94.5,"“Wow,”"],
+ [95.1,95.8,"he whispered."],
+ [96.8,99.8,"The ladder went all the way up to the top of the tree."],
+ [100.3,103.7,"There—at the top—was a tree house."],
+ [104.5,106.3,"It was tucked between two branches."],
+ [107.1,111.5,"“That must be the highest tree house in the world,” said Annie."],
+ [112.0,114.3,"“Who built it?” asked Jack."],
+ [114.8,116.0,"“I’ve never seen it before.”"],
+ [116.8,120.1,"“I don’t know. But I’m going up,” said Annie."],
+ [120.8,124.5,"“No. We don’t know who it belongs to,” said Jack."],
+ [125.0,128.0,"“Just for a teeny minute,” said Annie."],
+ [128.5,129.9,"She started up the ladder."],
+ [130.8,131.8,"“Annie, come back!”"],
+ [132.3,133.8,"She kept climbing."],
+ [133.9,135.6,"Jack sighed."],
+ [136.2,138.2,"“Annie, it’s almost dark."],
+ [138.4,139.3,"We have to go home.”"],
+ [140.3,142.9,"Annie disappeared inside the tree house."],
+ [143.5,144.3,"“An-nie!”"],
+ [145.0,146.7,"Jack waited a moment."],
+ [147.1,151.2,"He was about to call again when Annie poked her head out of the tree house window."],
+ [152.0,152.9,"“Books!”"],
+ [153.6,154.2,"she shouted."],
+ [155.0,155.5,"“What?”"],
+ [156.1,157.6,"“It’s filled with books!”"],
+ [158.3,161.4,"Oh, man! Jack loved books."],
+ [161.4,164.2,"He pushed his glasses into place."],
+ [164.7,168.2,"He gripped the sides of the rope ladder, and up he went."]];
+const KAR_ZH=[
+ "第一章 走进树林。",
+ "“救命啊！有怪物！”",
+ "安妮喊道。",
+ "“是啊，当然啦，”",
+ "杰克说。",
+ "“在宾夕法尼亚州的蛙溪镇，真的有怪物。”",
+ "“快跑，杰克！”",
+ "安妮喊道。",
+ "她沿着大路跑了上去。",
+ "唉，真是的。",
+ "这就是陪七岁的小妹妹玩的下场。",
+ "安妮最喜欢假装的游戏了。",
+ "可杰克已经八岁半了。",
+ "他喜欢真实的东西。",
+ "“小心，杰克！",
+ "怪物要来啦！”",
+ "比比谁先跑到！”",
+ "“不用啦，谢谢，”",
+ "杰克说。",
+ "安妮一个人冲进了树林。",
+ "杰克抬头看了看天。",
+ "太阳快落山了。",
+ "“快点，安妮！",
+ "该回家啦！”",
+ "可是安妮不见了。",
+ "杰克等着。",
+ "安妮没有回来。",
+ "“安妮！”",
+ "他又喊了一声。",
+ "“杰克！杰克！快过来！”",
+ "杰克嘟囔了一声。",
+ "“最好是什么重要的事，”他说。",
+ "杰克离开大路，走进了树林。",
+ "傍晚的金色阳光洒在树上。",
+ "“过来呀！”",
+ "安妮喊道。",
+ "她就在那儿，站在一棵高高的橡树下。",
+ "“看，”",
+ "她说。她指着一条绳梯。",
+ "这是杰克见过的最长的绳梯。",
+ "“哇，”",
+ "他小声说。",
+ "绳梯一直通到树顶。",
+ "就在那儿——树顶上——有一间树屋。",
+ "它藏在两根树枝中间。",
+ "“这一定是世界上最高的树屋了，”安妮说。",
+ "“是谁盖的呢？”杰克问。",
+ "“我以前从来没见过它。”",
+ "“我不知道。但我要爬上去，”安妮说。",
+ "“不行。我们不知道这是谁的，”杰克说。",
+ "“就上去一小会儿嘛，”安妮说。",
+ "她开始往绳梯上爬。",
+ "“安妮，快回来！”",
+ "她继续往上爬。",
+ "杰克叹了口气。",
+ "“安妮，天快黑了。",
+ "我们得回家了。”",
+ "安妮钻进树屋里不见了。",
+ "“安——妮！”",
+ "杰克等了一会儿。",
+ "他正要再喊，安妮从树屋的窗户探出头来。",
+ "“全是书！”",
+ "她喊道。",
+ "“什么？”",
+ "“树屋里全是书！”",
+ "太棒了！杰克最爱书了。",
+ "他推了推眼镜。",
+ "他抓住绳梯两边，爬了上去。"];
+  (function buildKar(){
+   const box=document.getElementById("karText");
+   const en=document.createElement("p");en.className="kar-block kar-en";
+   READ_SENTS.forEach(s=>{const sp=document.createElement("span");sp.className="kar-s";sp.textContent=s[2]+" ";en.appendChild(sp);});
+   const zhp=document.createElement("p");zhp.className="kar-zh-para";
+   KAR_ZH.forEach(t=>{const sp=document.createElement("span");sp.className="kar-z";sp.textContent=t+" ";zhp.appendChild(sp);});
+   box.appendChild(en);box.appendChild(zhp);
+  })();
+ const karZhToggle=document.getElementById("karZhToggle");
+ karZhToggle.onclick=()=>{const box=document.getElementById("karText");
+   box.classList.toggle("nozh");
+   karZhToggle.textContent=box.classList.contains("nozh")?"👀 显示中文翻译":"🙈 隐藏中文翻译";};
+const karAudio=new Audio(window._mediaURL?window._mediaURL.audio:AUDIO_SRC);
+let karIdx=-1;
+function karClear(){document.querySelectorAll(".kar-s,.kar-z").forEach(sp=>sp.classList.remove("on"));karIdx=-1;}
+karAudio.addEventListener("timeupdate",()=>{
+  const t=karAudio.currentTime;let idx=-1;
+  for(let i=0;i<READ_SENTS.length;i++){if(t>=READ_SENTS[i][0]-0.1&&t<=READ_SENTS[i][1]+0.3){idx=i;break;}}
+  if(idx!==karIdx){karIdx=idx;
+    const spans=document.querySelectorAll(".kar-s");
+    spans.forEach((sp,i)=>sp.classList.toggle("on",i===idx));
+    const zhs=document.querySelectorAll(".kar-z");
+    zhs.forEach((sp,i)=>sp.classList.toggle("on",i===idx));
+    if(idx>=0&&spans[idx])spans[idx].scrollIntoView({block:"center",behavior:"smooth"});}
+});
+karAudio.addEventListener("ended",karClear);
+document.getElementById("karPlay").onclick=()=>karAudio.play();
+document.getElementById("karStop").onclick=()=>{karAudio.pause();karClear();};
+
+/* ================= 录音导出（转 WAV，可直接转发/保存） ================= */
+function encodeWAV(samples,rate){
+  const buf=new ArrayBuffer(44+samples.length*2),v=new DataView(buf);
+  const ws=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};
+  ws(0,"RIFF");v.setUint32(4,36+samples.length*2,true);ws(8,"WAVE");ws(12,"fmt ");
+  v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+  v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);
+  ws(36,"data");v.setUint32(40,samples.length*2,true);
+  let o=44;
+  for(let i=0;i<samples.length;i++){const s=Math.max(-1,Math.min(1,samples[i]));
+    v.setInt16(o,s<0?s*0x8000:s*0x7FFF,true);o+=2;}
+  return buf;
+}
+async function exportRec(kind){
+  const b=await getRes("rec_"+kind);
+  if(!b){alert("还没有录音哦，先录一段吧 🎤");return;}
+  document.getElementById(kind+"Status").textContent="正在转换音频……";
+  try{
+    const ab=await b.arrayBuffer();
+    const ac=new (window.AudioContext||window.webkitAudioContext)();
+    const buf=await ac.decodeAudioData(ab);
+    const len=Math.ceil(buf.duration*24000);
+    const oc=new OfflineAudioContext(1,len,24000);
+    const src=oc.createBufferSource();src.buffer=buf;src.connect(oc.destination);src.start();
+    const out=await oc.startRendering();
+    const wav=encodeWAV(out.getChannelData(0),24000);
+    const name=`神奇树屋Ch1-${kind==="read"?"朗读":"配音"}.wav`;
+    const file=new File([wav],name,{type:"audio/wav"});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+      try{await navigator.share({files:[file],title:name});}catch(e){}
+    }else{
+      const url=URL.createObjectURL(new Blob([wav],{type:"audio/wav"}));
+      const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+    }
+    document.getElementById(kind+"Status").textContent="音频已导出 ✅（.wav 可直接转发）";
+  }catch(e){alert("导出失败："+e.message);}
+}
+
+renderProgress();
+</script>
+</body>
+</html>
