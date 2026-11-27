@@ -746,8 +746,11 @@ function switchW(which){
   document.getElementById("paneLearn").classList.toggle("on",which==="learn");
   document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
 }
+const TTS={"stammer":'audio/ch3/w01.mp3',"\"wh-where are we?\" stammered jack.":'audio/ch3/e01.mp3',"fern":'audio/ch3/w02.mp3',"the ground was covered with ferns.":'audio/ch3/e02.mp3',"winding":'audio/ch3/w03.mp3',"there was a winding stream.":'audio/ch3/e03.mp3',"stream":'audio/ch3/w04.mp3',"a winding stream ran through the valley.":'audio/ch3/e04.mp3',"sloping":'audio/ch3/w05.mp3',"there was a sloping hill.":'audio/ch3/e05.mp3',"volcano":'audio/ch3/w06.mp3',"and volcanoes in the distance.":'audio/ch3/e06.mp3',"coast":'audio/ch3/w07.mp3',"the creature coasted to a stop.":'audio/ch3/e07.mp3',"guard":'audio/ch3/w08.mp3',"the pteranodon stood like a guard.":'audio/ch3/e08.mp3',"spread out":'audio/ch3/w09.mp3',"his giant wings were spread out on either side of him.":'audio/ch3/e09.mp3',"nuts":'audio/ch3/w10.mp3',"\"you're nuts,\" said jack.":'audio/ch3/e10.mp3',"vanish":'audio/ch3/w11.mp3',"it vanished 65 million years ago.":'audio/ch3/e11.mp3',"impossible":'audio/ch3/w12.mp3',"no. impossible.":'audio/ch3/e12.mp3'};
 function _say(txt,rate){
   try{
+    const f=TTS[txt.trim().toLowerCase()];
+    if(f){try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){} new Audio(f).play();return;}
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);

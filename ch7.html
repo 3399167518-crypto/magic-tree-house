@@ -739,8 +739,11 @@ function switchW(which){
   document.getElementById("paneLearn").classList.toggle("on",which==="learn");
   document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
 }
+const TTS={"dash":'audio/ch7/w01.mp3',"they dashed down the hill together.":'audio/ch7/e01.mp3',"duck":'audio/ch7/w02.mp3',"\"duck!\" said jack.":'audio/ch7/e02.mp3',"hunch down":'audio/ch7/w03.mp3',"the two of them hunched down.":'audio/ch7/e03.mp3',"coast clear":'audio/ch7/w04.mp3',"\"coast clear,\" said jack.":'audio/ch7/e04.mp3',"groan":'audio/ch7/w05.mp3',"jack groaned.":'audio/ch7/e05.mp3',"wish":'audio/ch7/w06.mp3',"\"i wish we could go back to frog creek,\" said jack.":'audio/ch7/e06.mp3',"charge":'audio/ch7/w07.mp3',"he charged down the hill.":'audio/ch7/e07.mp3',"scoop up":'audio/ch7/w08.mp3',"he scooped it up.":'audio/ch7/e08.mp3',"leap":'audio/ch7/w09.mp3',"annie leaped to the window.":'audio/ch7/e09.mp3',"stand guard":'audio/ch7/w10.mp3',"all standing guard around the nests.":'audio/ch7/e10.mp3',"fear":'audio/ch7/w11.mp3',"did fear of the tyrannosaurus send them home?":'audio/ch7/e11.mp3',"seconds later":'audio/ch7/w12.mp3',"seconds later they tumbled into the tree house.":'audio/ch7/e12.mp3'};
 function _say(txt,rate){
   try{
+    const f=TTS[txt.trim().toLowerCase()];
+    if(f){try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){} new Audio(f).play();return;}
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);

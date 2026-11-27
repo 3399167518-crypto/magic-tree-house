@@ -762,8 +762,11 @@ function switchW(which){
   document.getElementById("paneLearn").classList.toggle("on",which==="learn");
   document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
 }
+const TTS={"peer":'audio/ch2/w01.mp3',"annie was peering out the window.":'audio/ch2/e01.mp3',"dusty":'audio/ch2/w02.mp3',"very old books with dusty covers.":'audio/ch2/e02.mp3',"bookmark":'audio/ch2/w03.mp3',"a blue silk bookmark was sticking out of it.":'audio/ch2/e03.mp3',"castle":'audio/ch2/w04.mp3',"she held up a book with a castle on the cover.":'audio/ch2/e04.mp3',"dinosaur":'audio/ch2/w05.mp3',"she held up a book about dinosaurs.":'audio/ch2/e05.mp3',"pteranodon":'audio/ch2/w06.mp3',"it was a real live pteranodon!":'audio/ch2/e06.mp3',"ancient":'audio/ch2/w07.mp3',"she stepped boldly up to the ancient creature.":'audio/ch2/e07.mp3',"reptile":'audio/ch2/w08.mp3',"he turned to a picture of an ancient flying reptile.":'audio/ch2/e08.mp3',"glide":'audio/ch2/w09.mp3',"a giant creature was gliding above the treetops.":'audio/ch2/e09.mp3',"crest":'audio/ch2/w10.mp3',"he had a long, weird crest on the back of his head.":'audio/ch2/e10.mp3',"soar":'audio/ch2/w11.mp3',"suddenly the creature soared up high into the sky.":'audio/ch2/e11.mp3',"spin":'audio/ch2/w12.mp3',"the tree house started to spin.":'audio/ch2/e12.mp3'};
 function _say(txt,rate){
   try{
+    const f=TTS[txt.trim().toLowerCase()];
+    if(f){try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){} new Audio(f).play();return;}
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);

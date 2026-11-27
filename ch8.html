@@ -727,8 +727,11 @@ function switchW(which){
   document.getElementById("paneLearn").classList.toggle("on",which==="learn");
   document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
 }
+const TTS={"beat":'audio/ch8/w01.mp3',"his heart was beating so fast he could hardly think.":'audio/ch8/e01.mp3',"horrible":'audio/ch8/w02.mp3',"the horrible-looking creature was opening and closing his huge jaws.":'audio/ch8/e02.mp3',"in one bite":'audio/ch8/w03.mp3',"it would eat a human in one bite.":'audio/ch8/e03.mp3',"hide":'audio/ch8/w04.mp3',"he couldn't hide on the other side of the hill.":'audio/ch8/e04.mp3',"stampede":'audio/ch8/w05.mp3',"the anatosauruses might stampede.":'audio/ch8/e05.mp3',"wander":'audio/ch8/w06.mp3',"the tyrannosaurus had wandered closer to the hill.":'audio/ch8/e06.mp3',"catch one's eye":'audio/ch8/w07.mp3',"something caught jack's eye.":'audio/ch8/e07.mp3',"hop":'audio/ch8/w08.mp3',"jack watched annie hop off the ladder.":'audio/ch8/e08.mp3',"flap":'audio/ch8/w09.mp3',"she was flapping her arms.":'audio/ch8/e09.mp3',"roar":'audio/ch8/w10.mp3',"suddenly jack heard a roar.":'audio/ch8/e10.mp3',"shake":'audio/ch8/w11.mp3',"jack felt the ground shaking.":'audio/ch8/e11.mp3',"shadow":'audio/ch8/w12.mp3',"a giant shadow covered jack.":'audio/ch8/e12.mp3'};
 function _say(txt,rate){
   try{
+    const f=TTS[txt.trim().toLowerCase()];
+    if(f){try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){} new Audio(f).play();return;}
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);

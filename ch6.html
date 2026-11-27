@@ -789,8 +789,11 @@ function switchW(which){
   document.getElementById("paneLearn").classList.toggle("on",which==="learn");
   document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
 }
+const TTS={"clutch":'audio/ch6/w01.mp3',"clutching her magnolia flower, she took off down the hill.":'audio/ch6/e01.mp3',"shriek":'audio/ch6/w02.mp3',"then he heard annie shriek.":'audio/ch6/e02.mp3',"bellow":'audio/ch6/w03.mp3',"a deep, bellowing sound.":'audio/ch6/e03.mp3',"nest":'audio/ch6/w04.mp3',"the valley below was filled with nests.":'audio/ch6/e04.mp3',"crouch":'audio/ch6/w05.mp3',"annie was crouching next to one of the nests.":'audio/ch6/e05.mp3',"gigantic":'audio/ch6/w06.mp3',"a gigantic duck-billed dinosaur!":'audio/ch6/e06.mp3',"panic":'audio/ch6/w07.mp3',"\"don't panic,\" said jack.":'audio/ch6/e07.mp3',"chew":'audio/ch6/w08.mp3',"pretend to chew.":'audio/ch6/e08.mp3',"waddle":'audio/ch6/w09.mp3',"the dinosaur waddled after her.":'audio/ch6/e09.mp3',"colony":'audio/ch6/w10.mp3',"the anatosauruses lived in colonies.":'audio/ch6/e10.mp3',"enormous":'audio/ch6/w11.mp3',"an enormous ugly monster was coming across the plain.":'audio/ch6/e11.mp3',"gleaming":'audio/ch6/w12.mp3',"jack could see his long, gleaming teeth.":'audio/ch6/e12.mp3'};
 function _say(txt,rate){
   try{
+    const f=TTS[txt.trim().toLowerCase()];
+    if(f){try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){} new Audio(f).play();return;}
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);

@@ -781,8 +781,11 @@ function switchW(which){
   document.getElementById("paneLearn").classList.toggle("on",which==="learn");
   document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
 }
+const TTS={"pant":'audio/ch5/w01.mp3',"they were panting as they looked out the window.":'audio/ch5/e01.mp3',"rhinoceros":'audio/ch5/w02.mp3',"the dinosaur looked like a huge rhinoceros.":'audio/ch5/e02.mp3',"horn":'audio/ch5/w03.mp3',"he had three horns instead of one.":'audio/ch5/e03.mp3',"shield":'audio/ch5/w04.mp3',"he had a big shield-like thing behind his head.":'audio/ch5/e04.mp3',"flip through":'audio/ch5/w05.mp3',"he flipped through the pages.":'audio/ch5/e05.mp3',"caption":'audio/ch5/w06.mp3',"he read the caption under the picture.":'audio/ch5/e06.mp3',"weigh":'audio/ch5/w07.mp3',"this dinosaur weighed over 12,000 pounds.":'audio/ch5/e07.mp3',"peek":'audio/ch5/w08.mp3',"jack peeked out at the triceratops.":'audio/ch5/e08.mp3',"nudge":'audio/ch5/w09.mp3',"annie nudged him hard.":'audio/ch5/e09.mp3',"tease":'audio/ch5/w10.mp3',"was she teasing?":'audio/ch5/e10.mp3',"medallion":'audio/ch5/w11.mp3',"a gold medallion glittered in the grass.":'audio/ch5/e11.mp3',"glitter":'audio/ch5/w12.mp3',"he saw something glittering in the tall grass.":'audio/ch5/e12.mp3'};
 function _say(txt,rate){
   try{
+    const f=TTS[txt.trim().toLowerCase()];
+    if(f){try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){} new Audio(f).play();return;}
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);

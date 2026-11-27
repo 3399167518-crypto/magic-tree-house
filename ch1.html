@@ -687,8 +687,11 @@ function switchW(which){
   document.getElementById("paneLearn").classList.toggle("on",which==="learn");
   document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
 }
+const TTS={"creek":'audio/ch1/w01.mp3',"they ran past a creek in the woods.":'audio/ch1/e01.mp3',"rope ladder":'audio/ch1/w02.mp3',"a rope ladder hung from the tallest tree.":'audio/ch1/e02.mp3',"oak tree":'audio/ch1/w03.mp3',"annie stood under a tall oak tree.":'audio/ch1/e03.mp3',"branch":'audio/ch1/w04.mp3',"the tree house was between two branches.":'audio/ch1/e04.mp3',"monster":'audio/ch1/w05.mp3',"help! a monster!":'audio/ch1/e05.mp3',"pretend":'audio/ch1/w06.mp3',"annie loved pretend games.":'audio/ch1/e06.mp3',"whisper":'audio/ch1/w07.mp3',"jack began to whisper.":'audio/ch1/e07.mp3',"tuck":'audio/ch1/w08.mp3',"he tucked the book under his arm.":'audio/ch1/e08.mp3',"belong to":'audio/ch1/w09.mp3',"who does this tree house belong to?":'audio/ch1/e09.mp3',"be filled with":'audio/ch1/w10.mp3',"the tree house was filled with books.":'audio/ch1/e10.mp3',"grip":'audio/ch1/w11.mp3',"he gripped the sides of the rope ladder.":'audio/ch1/e11.mp3',"disappear":'audio/ch1/w12.mp3',"annie disappeared into the tree house.":'audio/ch1/e12.mp3'};
 function _say(txt,rate){
   try{
+    const f=TTS[txt.trim().toLowerCase()];
+    if(f){try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){} new Audio(f).play();return;}
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);

@@ -762,8 +762,11 @@ function switchW(which){
   document.getElementById("paneLearn").classList.toggle("on",which==="learn");
   document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
 }
+const TTS={"dazed":'audio/ch10/w01.mp3',"jack still felt dazed.":'audio/ch10/e01.mp3',"simply":'audio/ch10/w02.mp3',"\"we took a trip in a magic tree house,\" said annie simply.":'audio/ch10/e02.mp3',"shrug":'audio/ch10/w03.mp3',"annie shrugged.":'audio/ch10/e03.mp3',"poke":'audio/ch10/w04.mp3',"annie poked her head out the window.":'audio/ch10/e04.mp3',"sling":'audio/ch10/w05.mp3',"jack slung his backpack over his shoulder.":'audio/ch10/e05.mp3',"believe":'audio/ch10/w06.mp3',"\"no one's going to believe our story,\" said jack.":'audio/ch10/e06.mp3',"dream":'audio/ch10/w07.mp3',"\"he'll say it was a dream,\" said annie.":'audio/ch10/e07.mp3',"tingle":'audio/ch10/w08.mp3',"it made jack's fingers tingle.":'audio/ch10/e08.mp3',"engraving":'audio/ch10/w09.mp3',"he felt the engraving of the letter m.":'audio/ch10/e09.mp3',"for sure":'audio/ch10/w10.mp3',"he knew for sure that their trip had been real.":'audio/ch10/e10.mp3',"golden":'audio/ch10/w11.mp3',"the woods were lit with a golden late-afternoon light.":'audio/ch10/e11.mp3',"race":'audio/ch10/w12.mp3',"\"race you!\"":'audio/ch10/e12.mp3'};
 function _say(txt,rate){
   try{
+    const f=TTS[txt.trim().toLowerCase()];
+    if(f){try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){} new Audio(f).play();return;}
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);

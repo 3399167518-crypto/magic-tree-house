@@ -772,8 +772,11 @@ function switchW(which){
   document.getElementById("paneLearn").classList.toggle("on",which==="learn");
   document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
 }
+const TTS={"teeter":'audio/ch9/w01.mp3',"they teetered this way, then that.":'audio/ch9/e01.mp3',"tightly":'audio/ch9/w02.mp3',"he held on tightly.":'audio/ch9/e02.mp3',"ease":'audio/ch9/w03.mp3',"then he eased down onto the pteranodon's back.":'audio/ch9/e03.mp3',"chomp":'audio/ch9/w04.mp3',"the tyrannosaurus was chomping the air.":'audio/ch9/e04.mp3',"graze":'audio/ch9/w05.mp3',"the triceratops who was grazing in the high grass":'audio/ch9/e05.mp3',"miracle":'audio/ch9/w06.mp3',"it was a miracle!":'audio/ch9/e06.mp3',"feather":'audio/ch9/w07.mp3',"as light as a feather.":'audio/ch9/e07.mp3',"whoop":'audio/ch9/w08.mp3',"he whooped. he laughed.":'audio/ch9/e08.mp3',"wobbly":'audio/ch9/w09.mp3',"his legs were wobbly.":'audio/ch9/e09.mp3',"dizzy":'audio/ch9/w10.mp3',"he felt a bit dizzy.":'audio/ch9/e10.mp3',"bolt":'audio/ch9/w11.mp3',"jack bolted to the ladder.":'audio/ch9/e11.mp3',"slam":'audio/ch9/w12.mp3',"suddenly something slammed against the oak tree.":'audio/ch9/e12.mp3'};
 function _say(txt,rate){
   try{
+    const f=TTS[txt.trim().toLowerCase()];
+    if(f){try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){} new Audio(f).play();return;}
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);

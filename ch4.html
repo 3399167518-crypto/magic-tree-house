@@ -748,8 +748,11 @@ function switchW(which){
   document.getElementById("paneLearn").classList.toggle("on",which==="learn");
   document.getElementById("paneQuiz").classList.toggle("on",which==="quiz");
 }
+const TTS={"gasp":'audio/ch4/w01.mp3',"jack gasped as annie held out her hand.":'audio/ch4/e01.mp3',"stroke":'audio/ch4/w02.mp3',"she stroked the pteranodon's neck.":'audio/ch4/e02.mp3',"examine":'audio/ch4/w03.mp3',"it would be good to examine the creature.":'audio/ch4/e03.mp3',"take notes":'audio/ch4/w04.mp3',"\"taking notes,\" said jack.":'audio/ch4/e04.mp3',"scientist":'audio/ch4/w05.mp3',"take notes. like a scientist.":'audio/ch4/e05.mp3',"alert":'audio/ch4/w06.mp3',"his eyes were bright and alert.":'audio/ch4/e06.mp3',"cautiously":'audio/ch4/w07.mp3',"he put out his arm. very cautiously.":'audio/ch4/e07.mp3',"fuzz":'audio/ch4/w08.mp3',"a thin layer of fuzz covered the pteranodon's skin.":'audio/ch4/e08.mp3',"bony":'audio/ch4/w09.mp3',"the creature had a bony crest on top of his head.":'audio/ch4/e09.mp3',"count on":'audio/ch4/w10.mp3',"\"don't count on it,\" said jack.":'audio/ch4/e10.mp3',"mutant":'audio/ch4/w11.mp3',"\"maybe he's a mutant,\" he said.":'audio/ch4/e11.mp3',"jaws":'audio/ch4/w12.mp3',"his long jaws were opening and closing.":'audio/ch4/e12.mp3'};
 function _say(txt,rate){
   try{
+    const f=TTS[txt.trim().toLowerCase()];
+    if(f){try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){} new Audio(f).play();return;}
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);
