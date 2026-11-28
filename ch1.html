@@ -990,7 +990,7 @@ const DUB_ZH=[
 const dvEl=document.getElementById("dubVideo");
 dvEl.addEventListener("error",()=>{document.getElementById("dubStatus").textContent="⚠️ 视频加载失败：请换 Chrome/Edge 浏览器打开本页面，或检查文件是否完整";});
 let dubRec=null,dubChunks=[],dubStream=null,dubWatch=null,composeTimer=null;
-const DUB_EXTRA=8;
+const DUB_EXTRA=12;
 const dubDone=new Set(),sRecURL={};
 function sceneOf(i){for(let s=DUB_SCENES.length-1;s>=0;s--){if(DUB_SENTS[i][0]>=DUB_SCENES[s].range[0])return s;}return 0;}
 function renderDub(){
